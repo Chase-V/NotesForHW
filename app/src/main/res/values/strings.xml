@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">NotesForHW</string>
+    <string name="note_title">Note Title</string>
+    <string name="title_hint">Название заметки</string>
+    <string name="date_hint">Выберите дату</string>
+    <string name="text_hint">Введите текст заметки</string>
+    <string name="add_note">Add note</string>
+    <string name="empty_not_saved">Заметка пустая и поэтому не была сохранена</string>
+    <string name="button_back">Назад</string>
+    <string name="settings">settings</string>
+
+    <string-array name="titlesForNotes">
+        <item>Список покупок</item>
+        <item>ДР Ивана</item>
+        <item>Позвонить в банк</item>
+        <item>Цели</item>
+        <item>Список книг</item>
+    </string-array>
+
+    <string-array name="datesForNotes">
+        <item>01.08.2021</item>
+        <item>13.09.2021</item>
+        <item>02.08.2021</item>
+        <item>До 01.01.2022</item>
+        <item>01.01.2021</item>
+    </string-array>
+
+    <string-array name="textForNotes">
+        <item>Колбаса, сыр, хлеб, мыло</item>
+        <item>Поздравить Ивана</item>
+        <item>Че там с деньгами?</item>
+        <item>Выучить Андроид разработку, Зарабатывать 300к\/нс</item>
+        <item>Колобок, Незнайка на Луне, Искусство войны</item>
+    </string-array>
+</resources>
