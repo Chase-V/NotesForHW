@@ -8,6 +8,8 @@
     <string name="empty_not_saved">Заметка пустая и поэтому не была сохранена</string>
     <string name="button_back">Назад</string>
     <string name="settings">settings</string>
+    <string name="about">about</string>
+    <string name="add">Add</string>
 
     <string-array name="titlesForNotes">
         <item>Список покупок</item>
