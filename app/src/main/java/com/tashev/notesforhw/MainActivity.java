@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,11 +24,27 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
         initDrawer(initToolbar());
 
+        if(savedInstanceState==null)
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.note_container, ListNotesFragment.newInstance())
                 .commit();
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // ищем фрагмент, который сидит в контейнере R.id.cities_container
+        Fragment backStackFragment = (Fragment)getSupportFragmentManager()
+                .findFragmentById(R.id.note_container);
+        // если такой есть, и он является CoatOfArmsFragment
+        if(backStackFragment!=null&&backStackFragment instanceof CreateNoteFragment){
+            //то сэмулируем нажатие кнопки Назад
+            onBackPressed();
+        }
+    }
+
 
     private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
