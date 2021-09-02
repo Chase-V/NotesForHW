@@ -7,11 +7,28 @@
     tools:context=".MainActivity"
     android:background="#FFEFCC">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/title_note"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/title_hint" />
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/title_note"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_hint" />
+
+        <ToggleButton
+            android:id="@+id/toggle_important"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/important_mark"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/date_note"
@@ -22,9 +39,11 @@
 
     <DatePicker
         android:id="@+id/date_picker_note"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+         />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/text_note"
@@ -34,10 +53,10 @@
         android:singleLine="false" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_back"
+        android:id="@+id/button_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="@string/button_back" />
+        android:text="@string/note_button_save" />
 
 </LinearLayout>
