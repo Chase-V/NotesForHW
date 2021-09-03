@@ -148,11 +148,19 @@ public class EditNoteFragment extends Fragment {
         String title = this.editTitle.getText().toString();
         String date = this.editDate.getText().toString();
         String text = this.editText.getText().toString();
+        isImportant = important.isChecked();
 
         if (note != null) {
-            isImportant = important.isChecked();
-        } else isImportant = false;
 
-        return new Note(title, date, text, isImportant);
+            note.setTitle(title);
+            note.setDate(date);
+            note.setText(text);
+            return note;
+        } else{
+            isImportant = false;
+            return new Note(title, date, text, isImportant);
+        }
+
+
     }
 }

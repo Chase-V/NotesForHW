@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 public class Note implements Parcelable {
 
+    private String id;
     private String title;
     private String text;
     private String date;
@@ -16,6 +17,10 @@ public class Note implements Parcelable {
         this.date = date;
         this.text = text;
         this.important = important;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -32,6 +37,26 @@ public class Note implements Parcelable {
 
     public boolean isImportant() {
         return important;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setImportant(boolean important) {
+        this.important = important;
     }
 
     //region Parcelization

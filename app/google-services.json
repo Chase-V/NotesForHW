@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "496944136186",
+    "project_id": "notesforhw",
+    "storage_bucket": "notesforhw.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496944136186:android:dce0a59ad0967df88aae43",
+        "android_client_info": {
+          "package_name": "com.tashev.notesforhw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496944136186-iajnlrcie2nln5j7rab65jk93nl0va1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDlEZeCrhKL6QJEpGITb33zSgrPF9-MOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496944136186-iajnlrcie2nln5j7rab65jk93nl0va1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

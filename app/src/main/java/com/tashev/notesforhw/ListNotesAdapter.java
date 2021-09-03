@@ -21,9 +21,13 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
     private Fragment fragment;
     private int menuContextClickPosition;
 
-    public ListNotesAdapter(NoteSource dataSource, Fragment fragment) {
-        this.noteSource = dataSource;
+    public ListNotesAdapter(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public void setNoteSource(NoteSource noteSource) {
+        this.noteSource = noteSource;
+        notifyDataSetChanged();
     }
 
     public int getMenuContextClickPosition() {
@@ -72,6 +76,8 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
             text = itemView.findViewById(R.id.text_card);
             important = itemView.findViewById(R.id.toggle_important);
 
+            fragment.registerForContextMenu(itemView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,7 +100,7 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
                 @Override
                 public boolean onLongClick(View v) {
                     menuContextClickPosition = getAdapterPosition();
-                    itemView.showContextMenu(); // TODO почему эта шляпа не работает?
+                    itemView.showContextMenu();
                     return true;
                 }
             });

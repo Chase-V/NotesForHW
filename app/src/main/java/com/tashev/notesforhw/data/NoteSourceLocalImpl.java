@@ -7,17 +7,17 @@ import com.tashev.notesforhw.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteSourceImpl implements NoteSource {
+public class NoteSourceLocalImpl implements NoteSource {
 
     private final Resources resources;
     private List<Note> noteSource;
 
-    public NoteSourceImpl(Resources resources) {
+    public NoteSourceLocalImpl(Resources resources) {
         noteSource = new ArrayList<>();
         this.resources = resources;
     }
 
-    public NoteSourceImpl init() {
+    public NoteSource init(NoteSourceResponse noteSourceResponse) {
 
         String[] titles = resources.getStringArray(R.array.titlesForNotes);
         String[] dates = resources.getStringArray(R.array.datesForNotes);
@@ -25,6 +25,10 @@ public class NoteSourceImpl implements NoteSource {
 
         for (int i = 0; i < titles.length; i++) {
             noteSource.add(new Note(titles[i], dates[i], texts[i], false));
+        }
+
+        if (noteSourceResponse!=null){
+            noteSourceResponse.initialized(this);
         }
 
         return this;

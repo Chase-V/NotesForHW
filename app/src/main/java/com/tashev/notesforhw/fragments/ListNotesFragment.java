@@ -3,6 +3,7 @@ package com.tashev.notesforhw.fragments;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,9 @@ import com.tashev.notesforhw.Navigation;
 import com.tashev.notesforhw.R;
 import com.tashev.notesforhw.data.Note;
 import com.tashev.notesforhw.data.NoteSource;
+import com.tashev.notesforhw.data.NoteSourceLocalImpl;
+import com.tashev.notesforhw.data.NoteSourceRemoteImpl;
+import com.tashev.notesforhw.data.NoteSourceResponse;
 import com.tashev.notesforhw.observer.Observer;
 import com.tashev.notesforhw.observer.Publisher;
 
@@ -50,8 +54,6 @@ public class ListNotesFragment extends Fragment {
             currentNote = getArguments().getParcelable(KEY_NOTE);
         }
 
-//        registerForContextMenu(recyclerView);
-
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         if (isLandscape) showNoteEditor(currentNote, false);
@@ -61,12 +63,9 @@ public class ListNotesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         MainActivity activity = (MainActivity) context;
         navigation = activity.getNavigation();
         publisher = activity.getPublisher();
-        noteSource = activity.getNoteSource();
-
     }
 
     @Override
@@ -76,11 +75,11 @@ public class ListNotesFragment extends Fragment {
         super.onDetach();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(KEY_NOTE, currentNote);
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        outState.putParcelable(KEY_NOTE, currentNote);
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,8 +90,41 @@ public class ListNotesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
 
         initRecyclerView(recyclerView, noteSource);
-        initButtonAdd(view);
 
+        if (false) {
+            noteSource = new NoteSourceLocalImpl(getResources()).init(new NoteSourceResponse() {
+                @Override
+                public void initialized(NoteSource noteSource) {
+
+                }
+            });
+        } else {
+            noteSource = new NoteSourceRemoteImpl().init(new NoteSourceResponse() {
+                @Override
+                public void initialized(NoteSource noteSource) {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+        initButtonAdd(view);
+        adapter.setNoteSource(noteSource);
+        adapter.setOnItemClickListener(new ListNotesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Log.d("mylog", "posittion" + position);
+                Log.d("mylog", "size" + noteSource.size());
+                showNoteEditor(noteSource.getNote(position), true);
+
+                publisher.subscribe(new Observer() {
+                    @Override
+                    public void updateState(Note note) {
+                        noteSource.updateNote(position, note);
+                        adapter.notifyItemChanged(position-1);
+                    }
+                });
+            }
+        });
         return view;
     }
 
@@ -100,24 +132,8 @@ public class ListNotesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ListNotesAdapter(noteSource, this);
+        adapter = new ListNotesAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new ListNotesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                showNoteEditor(noteSource.getNote(position), true);
-
-                publisher.subscribe(new Observer() {
-                    @Override
-                    public void updateState(Note note) {
-                        noteSource.updateNote(position, note);
-                        adapter.notifyItemChanged(position);
-                    }
-                });
-            }
-        });
     }
 
     public void showNoteEditor(Note note, boolean useBackStack) {
