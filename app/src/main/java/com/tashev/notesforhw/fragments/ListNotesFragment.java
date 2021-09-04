@@ -1,6 +1,8 @@
 package com.tashev.notesforhw.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +44,14 @@ public class ListNotesFragment extends Fragment {
     private Navigation navigation;
     private FloatingActionButton buttonAdd;
 
+    public NoteSource getNoteSource() {
+        return noteSource;
+    }
+
+    public ListNotesAdapter getAdapter() {
+        return adapter;
+    }
+
     public static ListNotesFragment newInstance() {
         return new ListNotesFragment();
     }
@@ -50,9 +60,7 @@ public class ListNotesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            currentNote = getArguments().getParcelable(KEY_NOTE);
-        }
+        if (getArguments() != null) currentNote = getArguments().getParcelable(KEY_NOTE);
 
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -171,15 +179,31 @@ public class ListNotesFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.list_notes_clear:
-                noteSource.clearNotes();
-                adapter.notifyDataSetChanged();
+
+                AlertDialog builder = new AlertDialog.Builder(requireActivity())
+                        .setTitle(R.string.textViewClear)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                noteSource.clearNotes();
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).create();
+                builder.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -193,8 +217,13 @@ public class ListNotesFragment extends Fragment {
         if (item.getItemId() == R.id.context_remove) {
             noteSource.deleteNote(position);
             adapter.notifyItemRemoved(position);
+
             return true;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public boolean onDialogResult(boolean answer){
+        return answer;
     }
 }

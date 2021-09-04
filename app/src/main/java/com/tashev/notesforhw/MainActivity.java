@@ -22,26 +22,10 @@ public class MainActivity extends AppCompatActivity {
     private Publisher publisher = new Publisher();
     private Navigation navigation = new Navigation(getSupportFragmentManager());
 
-//    private NoteSource noteSource;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        noteSource = new NoteSourceImpl(getResources()).init(new NoteSourceResponse() {
-//            @Override
-//            public void initialized(NoteSource noteSource) {
-//
-//            }
-//        });
-
-//        noteSource = new NoteSourceRemoteImpl().init(new NoteSourceResponse() {
-//            @Override
-//            public void initialized(NoteSource noteSource) {
-//
-//            }
-//        });
 
         initToolbar();
         initDrawer(initToolbar());
@@ -100,10 +84,4 @@ public class MainActivity extends AppCompatActivity {
     public Navigation getNavigation() {
         return navigation;
     }
-
-//    public NoteSource getNoteSource() {
-//        return noteSource;
-//    }
 }
-
-//TODO 1)Сохранение состояния при повороте экрана; 2)Почему не работает контекстное меню; 3)Навести порядок в коде
